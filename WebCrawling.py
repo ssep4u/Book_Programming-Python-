@@ -12,8 +12,24 @@ from bs4 import BeautifulSoup
 
 # TED Talks > 한국어
 data = urllib.request.urlopen('https://www.ted.com/talks?sort=newest&language=ko')
-soup = BeautifulSoup(data, 'html5lib')
+soup = BeautifulSoup(data, 'lxml')
 talkVideos = soup.findAll('div', attrs={'class':'media__message'})
+html='<html><head></head><body>'
 for item in talkVideos:
     title = item.find('a', attrs={'class':' ga-link'}).text
-    print(title.strip())
+    link = item.find('a')['href']
+    # print('{}<br />', title)
+    # print('<a href=ted.com{}>{}</a>', link, title)
+    html += '<a href=\'http://ted.com'+link+'\'>'+title+'</a><br />'
+    # print(title.strip())
+    # print(link.strip())
+html+='</body></html'
+
+outputSoup = BeautifulSoup(html)
+metaTag = outputSoup.new_tag('meta')
+metaTag.attrs['charset'] = 'utf-8'
+outputSoup.head.append(metaTag)
+html5 = str(outputSoup.prettify())
+f = open('TED Talks.html', 'w')
+f.write(html5)
+f.close()
