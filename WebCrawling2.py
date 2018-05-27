@@ -14,11 +14,11 @@ from bs4 import BeautifulSoup
 data = urlopen('https://www.ted.com/talks?sort=newest&language=ko')
 soup = BeautifulSoup(data, 'lxml')
 talkVideos = soup.find_all('div', attrs={'class':'media__message'})
-html='<html><head></head><body>'
+html='<html><head><meta charset=\'utf-8\' /></head><body>'
 for item in talkVideos:
     title = item.find('a', attrs={'data-ga-context':'talks'}).text
     link = item.find('a')['href']
-    print('{}<br />'.format(title))
+    # print('{}<br />'.format(title))
     html += '<a href=\'http://ted.com'+link+'\'>'+title+'</a><br />'
     # print('<a href=ted.com{}>{}</a>'.format(link, title)
     # print(title.strip())
@@ -26,11 +26,11 @@ for item in talkVideos:
 html+='</body></html>'
 
 outputSoup = BeautifulSoup(html, 'lxml')
-metaTag = outputSoup.new_tag('meta')
-metaTag.attrs['charset'] = 'utf-8'
-outputSoup.head.append(metaTag)
-html5 = str(outputSoup.prettify()).encode('utf-8')
-# print(html5)
+# metaTag = outputSoup.new_tag('meta')
+# metaTag.attrs['charset'] = 'utf-8'
+# outputSoup.head.append(metaTag)
+resultHtml = str(outputSoup.prettify()).encode('utf-8')
+# print(resultHtml)
 f = open('TED Talks.html', 'wb')
-f.write(html5)
+f.write(resultHtml)
 f.close()
