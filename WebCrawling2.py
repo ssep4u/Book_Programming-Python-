@@ -17,7 +17,7 @@ talkVideos = soup.find_all('div', attrs={'class':'media__message'})
 html='<html><head><meta charset=\'utf-8\' /></head><body>'
 for item in talkVideos:
     title = item.find('a', attrs={'data-ga-context':'talks'}).text
-    link = item.find('a')['href']
+    link = item.find('a').get('href')
     # print('{}<br />'.format(title))
     html += '<a href=\'http://ted.com'+link+'\'>'+title+'</a><br />'
     # print('<a href=ted.com{}>{}</a>'.format(link, title)
