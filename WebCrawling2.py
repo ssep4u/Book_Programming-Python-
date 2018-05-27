@@ -1,4 +1,4 @@
-import urllib.request
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
 # 네이버 웹툰 > 마음의 소리
@@ -11,25 +11,26 @@ from bs4 import BeautifulSoup
 #     print(title)
 
 # TED Talks > 한국어
-data = urllib.request.urlopen('https://www.ted.com/talks?sort=newest&language=ko')
+data = urlopen('https://www.ted.com/talks?sort=newest&language=ko')
 soup = BeautifulSoup(data, 'lxml')
-talkVideos = soup.findAll('div', attrs={'class':'media__message'})
+talkVideos = soup.find_all('div', attrs={'class':'media__message'})
 html='<html><head></head><body>'
 for item in talkVideos:
-    title = item.find('a', attrs={'class':' ga-link'}).text
+    title = item.find('a', attrs={'data-ga-context':'talks'}).text
     link = item.find('a')['href']
-    # print('{}<br />', title)
-    # print('<a href=ted.com{}>{}</a>', link, title)
+    print('{}<br />'.format(title))
     html += '<a href=\'http://ted.com'+link+'\'>'+title+'</a><br />'
+    # print('<a href=ted.com{}>{}</a>'.format(link, title)
     # print(title.strip())
     # print(link.strip())
-html+='</body></html'
+html+='</body></html>'
 
-outputSoup = BeautifulSoup(html)
+outputSoup = BeautifulSoup(html, 'lxml')
 metaTag = outputSoup.new_tag('meta')
 metaTag.attrs['charset'] = 'utf-8'
 outputSoup.head.append(metaTag)
-html5 = str(outputSoup.prettify())
-f = open('TED Talks.html', 'w')
+html5 = str(outputSoup.prettify()).encode('utf-8')
+# print(html5)
+f = open('TED Talks.html', 'wb')
 f.write(html5)
 f.close()
