@@ -19,7 +19,7 @@ for item in talkVideos:
     title = item.find('a', attrs={'data-ga-context':'talks'}).text
     link = item.find('a').get('href')
     # print('{}<br />'.format(title))
-    html += '<a href=\'http://ted.com'+link+'\'>'+title+'</a><br />'
+    html += '<a href=\'http://ted.com{}\'>{}</a><br />'.format(link, title)
     # print('<a href=ted.com{}>{}</a>'.format(link, title)
     # print(title.strip())
     # print(link.strip())
