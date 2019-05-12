@@ -6,11 +6,11 @@
 import random
 
 def make_answer():
-    l = list(range(10))
-    l.remove(0)
-    random.shuffle(l)
-    # answer = "".join(str(ch) for ch in l[:3])
-    answer = l[:3]
+    # l = list(range(1, 9+1))
+    # random.shuffle(l)
+    # # answer = "".join(str(ch) for ch in l[:3])
+    # answer = l[:3]
+    answer = random.sample(range(1, 9+1), 3)
     return answer
 
 
@@ -18,7 +18,7 @@ def play(input_string):
     strike = 0
     ball = 0
     for i, number in enumerate(answer):
-        try:``
+        try:
             search_index = input_string.index(str(number))
         except ValueError as identifier:
             # strike, ball없으면
@@ -32,6 +32,7 @@ def play(input_string):
     return strike, ball
 
 
+print("Play ball!!!")
 answer = make_answer()
 while (True):
     input_string = input()
